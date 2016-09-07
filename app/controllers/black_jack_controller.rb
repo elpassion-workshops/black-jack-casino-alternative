@@ -10,9 +10,11 @@ class BlackJackController < ApplicationController
 
   def show
     black_jack = BlackJack.find(params[:id])
-    @score = black_jack.dealer.player_score
+
+    @player_score = black_jack.dealer.player_score
     @player_cards = black_jack.dealer.player_cards
-    @dealer_cards = black_jack.dealer.dealer_cards
+    @dealer_score = black_jack.dealer.dealer_score_visible
+    @dealer_cards = black_jack.dealer.dealer_cards_visible
     @message = black_jack.dealer.message
   end
 

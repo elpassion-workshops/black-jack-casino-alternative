@@ -1,5 +1,5 @@
 class BlackJackDealer
-  attr_reader :dealer_cards, :player_cards, :game_over, :message
+  attr_reader :player_cards, :game_over, :message
 
   def initialize
     @deck = CardDeck.new
@@ -14,13 +14,23 @@ class BlackJackDealer
     player_cards.values.sum
   end
 
-  def dealer_score
-    dealer_cards.values.sum
+  def dealer_cards_visible
+    if @game_over
+      @dealer_cards
+    else
+      @dealer_cards.take(@dealer_cards.size - 1).to_h
+    end
+  end
+
+  def dealer_score_visible
+    dealer_cards_visible.values.sum
   end
 
   def hit
     card = @deck.draw
     player_cards[card[0]] = card[1]
+
+    dealer_draw
     update_game
   end
 
@@ -32,10 +42,17 @@ class BlackJackDealer
       player_cards[card[0]] = card[1]
 
       card = @deck.draw
-      dealer_cards[card[0]] = card[1]
+      @dealer_cards[card[0]] = card[1]
     end
-    
+
     update_game
+  end
+
+  def dealer_draw
+    if @dealer_cards.values.sum < 17
+      card = @deck.draw
+      @dealer_cards[card[0]] = card[1]
+    end
   end
 
   def update_game
