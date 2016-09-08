@@ -24,4 +24,11 @@ class BlackJackController < ApplicationController
     black_jack.save
     redirect_to black_jack
   end
+
+  def stand
+    black_jack = BlackJack.find(params[:id])
+    black_jack.dealer.stand
+    black_jack.save
+    redirect_to black_jack
+  end
 end
