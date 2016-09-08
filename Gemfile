@@ -33,6 +33,8 @@ group :development, :test do
   gem 'rspec-rails', '~> 3.5'
   gem 'capybara', '~> 2.8.0'
   gem 'factory_girl_rails', '~> 4.7.0'
+
+  gem 'rspec-nc', require: false
 end
 
 group :development do
@@ -48,3 +50,4 @@ end
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 gem 'slim-rails'
+gem 'devise'
