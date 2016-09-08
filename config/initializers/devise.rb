@@ -34,7 +34,7 @@ Devise.setup do |config|
   # session. If you need permissions, you should implement that in a before filter.
   # You can also supply a hash where the value is a boolean determining whether
   # or not authentication should be aborted when the value is not present.
-  # config.authentication_keys = [:email]
+  config.authentication_keys = [:email]
 
   # Configure parameters from the request object used for authentication. Each entry
   # given should be a request method and it will automatically be passed to the
@@ -105,7 +105,7 @@ Devise.setup do |config|
   # config.pepper = '0b576afc916cd4b27c688872cd9dfcbf02ec6199b07e3678a73601567481a3a1fd597f1d7313072fee539bc73f3f50dcac65d08bd90a5a79209d586ae7af3ed3'
 
   # Send a notification email when the user's password is changed
-  # config.send_password_change_notification = false
+  config.send_password_change_notification = false
 
   # ==> Configuration for :confirmable
   # A period that the user is allowed to access the website even without
