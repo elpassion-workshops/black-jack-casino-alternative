@@ -31,10 +31,11 @@ group :development, :test do
   gem 'byebug', platform: :mri
 
   gem 'rspec-rails', '~> 3.5'
+  gem 'rspec-nc', require: false
   gem 'capybara', '~> 2.8.0'
   gem 'factory_girl_rails', '~> 4.7.0'
 
-  gem 'rspec-nc', require: false
+  gem 'dotenv-rails'
 end
 
 group :development do
@@ -51,3 +52,4 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 gem 'slim-rails'
 gem 'devise'
+gem 'omniauth-facebook'
