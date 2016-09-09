@@ -1,12 +1,12 @@
 class BlackJackDealer
-  attr_reader :player_cards, :finished, :message
+  attr_reader :player_cards, :finished, :winner
 
   def initialize
     @deck = CardDeck.new
     @dealer_cards = {}
     @player_cards = {}
     @finished = false
-    @message = ''
+    @winner = nil
     first_deal
   end
 
@@ -27,65 +27,65 @@ class BlackJackDealer
   end
 
   def hit
-    card = @deck.draw
-    player_cards[card[0]] = card[1]
-
+    draw_for(:player)
     dealer_draw
     update_game
   end
 
   def stand
-    @finished = true
-    dealer_draw
-    dealer_draw
-
+    while dealer_should_draw? do
+      dealer_draw
+    end
     update_game
 
     dealer_score = @dealer_cards.values.sum
     scores = {player: player_score, dealer: dealer_score}
 
     if player_score && dealer_score >= 21
-      winner = scores.min_by { |k,v| v }
+      @winner = scores.min_by { |k,v| v }
     else
-      winner = scores.max_by { |k,v| v }
+      @winner = scores.max_by { |k,v| v }
     end
 
-    @message = "#{winner[0]} is the winner"
+    @finished = true
   end
 
   private
 
-  def first_deal
-    2.times do
-      card = @deck.draw
+  def draw_for(subject)
+    card = @deck.draw
+    if subject == :player
       player_cards[card[0]] = card[1]
-
-      card = @deck.draw
+    else
       @dealer_cards[card[0]] = card[1]
     end
+  end
 
-    update_game
+  def dealer_should_draw?
+    @dealer_cards.values.sum < 17
   end
 
   def dealer_draw
-    if @dealer_cards.values.sum < 17 && !finished
-      card = @deck.draw
-      @dealer_cards[card[0]] = card[1]
+    if dealer_should_draw? && !finished
+      draw_for(:dealer)
     end
+  end
+
+  def first_deal
+    2.times do
+      draw_for(:player)
+      draw_for(:dealer)
+    end
+    update_game
   end
 
   def update_game
     if player_score == 21
       @finished = true
-      @message = 'You have won!'
-    elsif player_score > 21
+      @winner = [:player, player_score]
+    elsif player_score > 21 || @dealer_cards.values.sum == 21
       @finished = true
-      @message = 'You have lost!'
-    end
-
-    if @dealer_cards.values.sum == 21
-      @finished = true
-      @message = 'You have lost!'
+      @winner = [:dealer, @dealer_cards.values.sum]
     end
   end
 end

@@ -14,7 +14,7 @@ class BlackJackController < ApplicationController
     @player_cards = dealer.player_cards
     @dealer_score = dealer.dealer_score_visible
     @dealer_cards = dealer.dealer_cards_visible
-    @message = dealer.message
+    @winner = dealer.winner
   end
 
   def hit
